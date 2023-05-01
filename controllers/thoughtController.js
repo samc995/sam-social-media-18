@@ -22,8 +22,8 @@ module.exports = {
   createThought(req, res) {
     Thought.create(req.body)
       .then((thought) => {
-        User.findOneAndUpdate(
-          { username: req.body.username },
+       return User.findOneAndUpdate(
+          { username: thought.username },
           {
             $push: {
               thoughts: thought._id,
@@ -50,7 +50,7 @@ module.exports = {
   deleteThought(req, res) {
     Thought.findOneAndDelete({_id:req.params.thoughtId})
       .then((thought) => {
-        User.findOneAndUpdate(
+       return User.findOneAndUpdate(
           { username: thought.username },
           {
             $pull: {
